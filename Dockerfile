@@ -11,13 +11,19 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libcurl4-openssl-dev \
     pkg-config \
-    libssl-dev
+    libssl-dev \
+    libzip-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Configure GD
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip
 
 # Install MongoDB extension
 RUN pecl install mongodb && docker-php-ext-enable mongodb
