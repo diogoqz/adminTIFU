@@ -26,8 +26,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip
 
-# Install MongoDB extension
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+# Install MongoDB and gRPC extensions
+RUN pecl install mongodb grpc && docker-php-ext-enable mongodb grpc
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
