@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libicu-dev
+    libicu-dev \
+    file
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -26,8 +27,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip
 
-# Install MongoDB and gRPC extensions
-RUN pecl install mongodb grpc && docker-php-ext-enable mongodb grpc
+# Install MongoDB, gRPC, and Redis extensions
+RUN pecl install mongodb grpc redis && docker-php-ext-enable mongodb grpc redis
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
